@@ -3,7 +3,7 @@ package com.jean.zen.controllers;
 import com.jean.zen.dtos.requests.NewRoleRequest;
 import com.jean.zen.services.RoleService;
 import com.jean.zen.utils.custom_exceptions.NotFoundException;
-import com.jean.zen.utils.custom_exceptions.ResourceConflict;
+import com.jean.zen.utils.custom_exceptions.ResourceConflictException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +29,7 @@ public class RoleController {
       throw new NotFoundException("Role name cannot be empty");
     }
     if (!roleService.isUniqueRole(name)) {
-      throw new ResourceConflict("Role name already exists");
+      throw new ResourceConflictException("Role name already exists");
     }
 
     // Save the role

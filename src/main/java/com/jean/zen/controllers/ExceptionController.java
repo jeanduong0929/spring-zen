@@ -1,7 +1,9 @@
 package com.jean.zen.controllers;
 
+import com.jean.zen.utils.custom_exceptions.BadRequestException;
+import com.jean.zen.utils.custom_exceptions.InvalidAuthException;
 import com.jean.zen.utils.custom_exceptions.NotFoundException;
-import com.jean.zen.utils.custom_exceptions.ResourceConflict;
+import com.jean.zen.utils.custom_exceptions.ResourceConflictException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,12 +24,30 @@ public class ExceptionController {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
   }
 
-  @ExceptionHandler(ResourceConflict.class)
+  @ExceptionHandler(ResourceConflictException.class)
   public ResponseEntity<Map<String, Object>>
-  handleResourceConflicException(ResourceConflict e) {
+  handleResourceConflicException(ResourceConflictException e) {
     Map<String, Object> response = new HashMap<>();
     response.put("message: ", e.getMessage());
     response.put("timestamp: ", new Date());
     return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+  }
+
+  @ExceptionHandler(BadRequestException.class)
+  public ResponseEntity<Map<String, Object>>
+  handleBadRequestException(BadRequestException e) {
+    Map<String, Object> response = new HashMap<>();
+    response.put("message: ", e.getMessage());
+    response.put("timestamp: ", new Date());
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+  }
+
+  @ExceptionHandler(InvalidAuthException.class)
+  public ResponseEntity<Map<String, Object>>
+  handleInvalidAuthException(InvalidAuthException e) {
+    Map<String, Object> response = new HashMap<>();
+    response.put("message: ", e.getMessage());
+    response.put("timestamp: ", new Date());
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
   }
 }
